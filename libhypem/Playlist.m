@@ -26,8 +26,4 @@
 
 @implementation Playlist
 
-+ (BOOL) returnYes {
-	return YES;
-}
-
 @end

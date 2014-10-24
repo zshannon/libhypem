@@ -22,9 +22,9 @@
 //
 //------------------------------------------------------------------------------
 
-#import "Playlist.h"
-#import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
+#import "Playlist.h"
+
 
 @interface PlaylistTests : XCTestCase
 
@@ -32,10 +32,5 @@
 
 
 @implementation PlaylistTests
-
-- (void)testReturnYes
-{
-	XCTAssertTrue([Playlist returnYes], @"returnYes should be YES");
-}
 
 @end

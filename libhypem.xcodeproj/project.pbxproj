@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1117ADBF19FA02E600B0789E /* HypeM.h in Headers */ = {isa = PBXBuildFile; fileRef = 1117ADBD19FA02E600B0789E /* HypeM.h */; };
+		1117ADC019FA02E600B0789E /* HypeM.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADBE19FA02E600B0789E /* HypeM.m */; };
+		1117ADC319FA03BF00B0789E /* User.h in Headers */ = {isa = PBXBuildFile; fileRef = 1117ADC119FA03BF00B0789E /* User.h */; };
+		1117ADC419FA03BF00B0789E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADC219FA03BF00B0789E /* User.m */; };
+		1117ADC719FA045700B0789E /* APIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1117ADC519FA045700B0789E /* APIClient.h */; };
+		1117ADC819FA045700B0789E /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADC619FA045700B0789E /* APIClient.m */; };
+		1117ADCA19FA249300B0789E /* LoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADC919FA249300B0789E /* LoginTests.m */; };
+		1117ADD819FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */; };
+		1117ADD919FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */; };
 		787BF09413EBDB00002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
 		787BF09E13EBDB01002291AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 787BF09C13EBDB01002291AF /* InfoPlist.strings */; };
 		787BF0AB13EBDB01002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
@@ -46,6 +55,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1117ADBD19FA02E600B0789E /* HypeM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HypeM.h; sourceTree = "<group>"; };
+		1117ADBE19FA02E600B0789E /* HypeM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HypeM.m; sourceTree = "<group>"; };
+		1117ADC119FA03BF00B0789E /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		1117ADC219FA03BF00B0789E /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		1117ADC519FA045700B0789E /* APIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
+		1117ADC619FA045700B0789E /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
+		1117ADC919FA249300B0789E /* LoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginTests.m; sourceTree = "<group>"; };
+		1117ADD619FA28E300B0789E /* XCTestCase+AsyncTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+AsyncTesting.h"; sourceTree = "<group>"; };
+		1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+AsyncTesting.m"; sourceTree = "<group>"; };
+		1117ADDA19FA2C5A00B0789E /* TestingContstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestingContstants.h; sourceTree = "<group>"; };
 		787BF09013EBDB00002291AF /* libhypem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libhypem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		787BF09313EBDB00002291AF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		787BF09613EBDB00002291AF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -159,9 +178,15 @@
 		787BF09913EBDB00002291AF /* libhypem */ = {
 			isa = PBXGroup;
 			children = (
+				1117ADC519FA045700B0789E /* APIClient.h */,
+				1117ADC619FA045700B0789E /* APIClient.m */,
 				78C0802413EBF48A0069FE11 /* libhypem.h */,
+				1117ADBD19FA02E600B0789E /* HypeM.h */,
+				1117ADBE19FA02E600B0789E /* HypeM.m */,
 				78C0802013EBE9EC0069FE11 /* Playlist.h */,
 				78C0802113EBE9EC0069FE11 /* Playlist.m */,
+				1117ADC119FA03BF00B0789E /* User.h */,
+				1117ADC219FA03BF00B0789E /* User.m */,
 				787BF09A13EBDB00002291AF /* Supporting Files */,
 			);
 			path = libhypem;
@@ -180,8 +205,10 @@
 		787BF0AF13EBDB01002291AF /* libhypemTests */ = {
 			isa = PBXGroup;
 			children = (
+				1117ADC919FA249300B0789E /* LoginTests.m */,
 				787BF0B613EBDB01002291AF /* PlaylistTests.m */,
 				787BF0B013EBDB01002291AF /* Supporting Files */,
+				1117ADDA19FA2C5A00B0789E /* TestingContstants.h */,
 			);
 			path = libhypemTests;
 			sourceTree = "<group>";
@@ -189,6 +216,8 @@
 		787BF0B013EBDB01002291AF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1117ADD619FA28E300B0789E /* XCTestCase+AsyncTesting.h */,
+				1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */,
 				787BF0B113EBDB01002291AF /* libhypemTests-Info.plist */,
 				787BF0B213EBDB01002291AF /* InfoPlist.strings */,
 			);
@@ -235,8 +264,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1117ADC719FA045700B0789E /* APIClient.h in Headers */,
+				1117ADBF19FA02E600B0789E /* HypeM.h in Headers */,
 				78C0802213EBE9EC0069FE11 /* Playlist.h in Headers */,
 				78C0802513EBF48A0069FE11 /* libhypem.h in Headers */,
+				1117ADC319FA03BF00B0789E /* User.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +449,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				78C0802313EBE9EC0069FE11 /* Playlist.m in Sources */,
+				1117ADC019FA02E600B0789E /* HypeM.m in Sources */,
+				1117ADC419FA03BF00B0789E /* User.m in Sources */,
+				1117ADC819FA045700B0789E /* APIClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +460,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				787BF0B713EBDB01002291AF /* PlaylistTests.m in Sources */,
+				1117ADD819FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */,
+				1117ADCA19FA249300B0789E /* LoginTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1117ADD919FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */,
 				78C0805313EBFC680069FE11 /* PlaylistTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
