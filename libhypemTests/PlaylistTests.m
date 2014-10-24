@@ -22,14 +22,20 @@
 //
 //------------------------------------------------------------------------------
 
-#import "PlaylistTests.h"
 #import "Playlist.h"
+#import <Cocoa/Cocoa.h>
+#import <XCTest/XCTest.h>
+
+@interface PlaylistTests : XCTestCase
+
+@end
+
 
 @implementation PlaylistTests
 
-- (void)testStringFromClass
+- (void)testReturnYes
 {
-	STAssertTrue([Playlist returnYes], @"returnYes should be YES");
+	XCTAssertTrue([Playlist returnYes], @"returnYes should be YES");
 }
 
 @end

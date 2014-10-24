@@ -24,8 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Playlist
+@interface Playlist : NSObject 
 
-- (BOOL) returnYes;
++ (BOOL) returnYes;
 
 @end
