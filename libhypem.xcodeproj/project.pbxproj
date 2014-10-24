@@ -1,0 +1,721 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		787BF09413EBDB00002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
+		787BF09E13EBDB01002291AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 787BF09C13EBDB01002291AF /* InfoPlist.strings */; };
+		787BF0AA13EBDB01002291AF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF0A913EBDB01002291AF /* SenTestingKit.framework */; };
+		787BF0AB13EBDB01002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
+		787BF0AE13EBDB01002291AF /* libhypem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09013EBDB00002291AF /* libhypem.framework */; };
+		787BF0B413EBDB01002291AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 787BF0B213EBDB01002291AF /* InfoPlist.strings */; };
+		787BF0B713EBDB01002291AF /* PlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 787BF0B613EBDB01002291AF /* PlaylistTests.m */; };
+		78AFBD8213EC050800BBFC62 /* libhypem.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C0802413EBF48A0069FE11 /* libhypem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C0802213EBE9EC0069FE11 /* Playlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C0802013EBE9EC0069FE11 /* Playlist.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		78C0802313EBE9EC0069FE11 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C0802113EBE9EC0069FE11 /* Playlist.m */; };
+		78C0802513EBF48A0069FE11 /* libhypem.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C0802413EBF48A0069FE11 /* libhypem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C0802C13EBF7E50069FE11 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C0802B13EBF7E50069FE11 /* Foundation.framework */; };
+		78C0803913EBF7E50069FE11 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF0A913EBDB01002291AF /* SenTestingKit.framework */; };
+		78C0803B13EBF7E60069FE11 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C0803A13EBF7E50069FE11 /* UIKit.framework */; };
+		78C0803C13EBF7E60069FE11 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C0802B13EBF7E50069FE11 /* Foundation.framework */; };
+		78C0803E13EBF7E60069FE11 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C0803D13EBF7E60069FE11 /* CoreGraphics.framework */; };
+		78C0804113EBF7E60069FE11 /* liblibhypem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C0802A13EBF7E50069FE11 /* liblibhypem.a */; };
+		78C0804713EBF7E60069FE11 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 78C0804513EBF7E60069FE11 /* InfoPlist.strings */; };
+		78C0805113EBF9810069FE11 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C0802113EBE9EC0069FE11 /* Playlist.m */; };
+		78C0805213EBF98B0069FE11 /* Playlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C0802013EBE9EC0069FE11 /* Playlist.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		78C0805313EBFC680069FE11 /* PlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 787BF0B613EBDB01002291AF /* PlaylistTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		787BF0AC13EBDB01002291AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 787BF08613EBDB00002291AF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 787BF08F13EBDB00002291AF;
+			remoteInfo = libhypem;
+		};
+		78C0803F13EBF7E60069FE11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 787BF08613EBDB00002291AF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78C0802913EBF7E50069FE11;
+			remoteInfo = libhypemLibrary;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		787BF09013EBDB00002291AF /* libhypem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libhypem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		787BF09313EBDB00002291AF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		787BF09613EBDB00002291AF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		787BF09713EBDB00002291AF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		787BF09813EBDB00002291AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		787BF09B13EBDB01002291AF /* libhypem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libhypem-Info.plist"; sourceTree = "<group>"; };
+		787BF09D13EBDB01002291AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		787BF09F13EBDB01002291AF /* libhypem-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libhypem-Prefix.pch"; sourceTree = "<group>"; };
+		787BF0A813EBDB01002291AF /* libhypemFrameworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libhypemFrameworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		787BF0A913EBDB01002291AF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		787BF0B113EBDB01002291AF /* libhypemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libhypemTests-Info.plist"; sourceTree = "<group>"; };
+		787BF0B313EBDB01002291AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		787BF0B513EBDB01002291AF /* PlaylistTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaylistTests.h; sourceTree = "<group>"; };
+		787BF0B613EBDB01002291AF /* PlaylistTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaylistTests.m; sourceTree = "<group>"; };
+		78C0802013EBE9EC0069FE11 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playlist.h; sourceTree = "<group>"; };
+		78C0802113EBE9EC0069FE11 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playlist.m; sourceTree = "<group>"; };
+		78C0802413EBF48A0069FE11 /* libhypem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libhypem.h; sourceTree = "<group>"; };
+		78C0802A13EBF7E50069FE11 /* liblibhypem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibhypem.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		78C0802B13EBF7E50069FE11 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		78C0802F13EBF7E50069FE11 /* libhypemLibrary-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libhypemLibrary-Prefix.pch"; sourceTree = "<group>"; };
+		78C0803813EBF7E50069FE11 /* libhypemLibraryTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libhypemLibraryTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		78C0803A13EBF7E50069FE11 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		78C0803D13EBF7E60069FE11 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		78C0804413EBF7E60069FE11 /* libhypemLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libhypemLibraryTests-Info.plist"; sourceTree = "<group>"; };
+		78C0804613EBF7E60069FE11 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		787BF08C13EBDB00002291AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787BF09413EBDB00002291AF /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		787BF0A413EBDB01002291AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787BF0AA13EBDB01002291AF /* SenTestingKit.framework in Frameworks */,
+				787BF0AB13EBDB01002291AF /* Cocoa.framework in Frameworks */,
+				787BF0AE13EBDB01002291AF /* libhypem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78C0802713EBF7E50069FE11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0802C13EBF7E50069FE11 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78C0803413EBF7E50069FE11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0803913EBF7E50069FE11 /* SenTestingKit.framework in Frameworks */,
+				78C0803B13EBF7E60069FE11 /* UIKit.framework in Frameworks */,
+				78C0803C13EBF7E60069FE11 /* Foundation.framework in Frameworks */,
+				78C0803E13EBF7E60069FE11 /* CoreGraphics.framework in Frameworks */,
+				78C0804113EBF7E60069FE11 /* liblibhypem.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		787BF08413EBDB00002291AF = {
+			isa = PBXGroup;
+			children = (
+				787BF09913EBDB00002291AF /* libhypem */,
+				787BF0AF13EBDB01002291AF /* libhypemTests */,
+				78C0802D13EBF7E50069FE11 /* libhypemLibrary */,
+				78C0804213EBF7E60069FE11 /* libhypemLibraryTests */,
+				787BF09213EBDB00002291AF /* Frameworks */,
+				787BF09113EBDB00002291AF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		787BF09113EBDB00002291AF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				787BF09013EBDB00002291AF /* libhypem.framework */,
+				787BF0A813EBDB01002291AF /* libhypemFrameworkTests.octest */,
+				78C0802A13EBF7E50069FE11 /* liblibhypem.a */,
+				78C0803813EBF7E50069FE11 /* libhypemLibraryTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		787BF09213EBDB00002291AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				787BF09313EBDB00002291AF /* Cocoa.framework */,
+				787BF0A913EBDB01002291AF /* SenTestingKit.framework */,
+				78C0802B13EBF7E50069FE11 /* Foundation.framework */,
+				78C0803A13EBF7E50069FE11 /* UIKit.framework */,
+				78C0803D13EBF7E60069FE11 /* CoreGraphics.framework */,
+				787BF09513EBDB00002291AF /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		787BF09513EBDB00002291AF /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				787BF09613EBDB00002291AF /* AppKit.framework */,
+				787BF09713EBDB00002291AF /* CoreData.framework */,
+				787BF09813EBDB00002291AF /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		787BF09913EBDB00002291AF /* libhypem */ = {
+			isa = PBXGroup;
+			children = (
+				78C0802413EBF48A0069FE11 /* libhypem.h */,
+				78C0802013EBE9EC0069FE11 /* Playlist.h */,
+				78C0802113EBE9EC0069FE11 /* Playlist.m */,
+				787BF09A13EBDB00002291AF /* Supporting Files */,
+			);
+			path = libhypem;
+			sourceTree = "<group>";
+		};
+		787BF09A13EBDB00002291AF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				787BF09B13EBDB01002291AF /* libhypem-Info.plist */,
+				787BF09C13EBDB01002291AF /* InfoPlist.strings */,
+				787BF09F13EBDB01002291AF /* libhypem-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		787BF0AF13EBDB01002291AF /* libhypemTests */ = {
+			isa = PBXGroup;
+			children = (
+				787BF0B513EBDB01002291AF /* PlaylistTests.h */,
+				787BF0B613EBDB01002291AF /* PlaylistTests.m */,
+				787BF0B013EBDB01002291AF /* Supporting Files */,
+			);
+			path = libhypemTests;
+			sourceTree = "<group>";
+		};
+		787BF0B013EBDB01002291AF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				787BF0B113EBDB01002291AF /* libhypemTests-Info.plist */,
+				787BF0B213EBDB01002291AF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		78C0802D13EBF7E50069FE11 /* libhypemLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				78C0802E13EBF7E50069FE11 /* Supporting Files */,
+			);
+			path = libhypemLibrary;
+			sourceTree = "<group>";
+		};
+		78C0802E13EBF7E50069FE11 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				78C0802F13EBF7E50069FE11 /* libhypemLibrary-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		78C0804213EBF7E60069FE11 /* libhypemLibraryTests */ = {
+			isa = PBXGroup;
+			children = (
+				78C0804313EBF7E60069FE11 /* Supporting Files */,
+			);
+			path = libhypemLibraryTests;
+			sourceTree = "<group>";
+		};
+		78C0804313EBF7E60069FE11 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				78C0804413EBF7E60069FE11 /* libhypemLibraryTests-Info.plist */,
+				78C0804513EBF7E60069FE11 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		787BF08D13EBDB00002291AF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0802213EBE9EC0069FE11 /* Playlist.h in Headers */,
+				78C0802513EBF48A0069FE11 /* libhypem.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78C0802813EBF7E50069FE11 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78AFBD8213EC050800BBFC62 /* libhypem.h in Headers */,
+				78C0805213EBF98B0069FE11 /* Playlist.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		787BF08F13EBDB00002291AF /* libhypemFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 787BF0BA13EBDB01002291AF /* Build configuration list for PBXNativeTarget "libhypemFramework" */;
+			buildPhases = (
+				787BF08B13EBDB00002291AF /* Sources */,
+				787BF08C13EBDB00002291AF /* Frameworks */,
+				787BF08D13EBDB00002291AF /* Headers */,
+				787BF08E13EBDB00002291AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libhypemFramework;
+			productName = libhypem;
+			productReference = 787BF09013EBDB00002291AF /* libhypem.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		787BF0A713EBDB01002291AF /* libhypemFrameworkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 787BF0BD13EBDB01002291AF /* Build configuration list for PBXNativeTarget "libhypemFrameworkTests" */;
+			buildPhases = (
+				787BF0A313EBDB01002291AF /* Sources */,
+				787BF0A413EBDB01002291AF /* Frameworks */,
+				787BF0A513EBDB01002291AF /* Resources */,
+				787BF0A613EBDB01002291AF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				787BF0AD13EBDB01002291AF /* PBXTargetDependency */,
+			);
+			name = libhypemFrameworkTests;
+			productName = libhypemTests;
+			productReference = 787BF0A813EBDB01002291AF /* libhypemFrameworkTests.octest */;
+			productType = "com.apple.product-type.bundle.ocunit-test";
+		};
+		78C0802913EBF7E50069FE11 /* libhypemLibrary */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78C0804B13EBF7E60069FE11 /* Build configuration list for PBXNativeTarget "libhypemLibrary" */;
+			buildPhases = (
+				78C0802613EBF7E50069FE11 /* Sources */,
+				78C0802713EBF7E50069FE11 /* Frameworks */,
+				78C0802813EBF7E50069FE11 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libhypemLibrary;
+			productName = libhypemLibrary;
+			productReference = 78C0802A13EBF7E50069FE11 /* liblibhypem.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		78C0803713EBF7E50069FE11 /* libhypemLibraryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78C0804E13EBF7E60069FE11 /* Build configuration list for PBXNativeTarget "libhypemLibraryTests" */;
+			buildPhases = (
+				78C0803313EBF7E50069FE11 /* Sources */,
+				78C0803413EBF7E50069FE11 /* Frameworks */,
+				78C0803513EBF7E50069FE11 /* Resources */,
+				78C0803613EBF7E50069FE11 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78C0804013EBF7E60069FE11 /* PBXTargetDependency */,
+			);
+			name = libhypemLibraryTests;
+			productName = libhypemLibraryTests;
+			productReference = 78C0803813EBF7E50069FE11 /* libhypemLibraryTests.octest */;
+			productType = "com.apple.product-type.bundle.ocunit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		787BF08613EBDB00002291AF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "";
+			};
+			buildConfigurationList = 787BF08913EBDB00002291AF /* Build configuration list for PBXProject "libhypem" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 787BF08413EBDB00002291AF;
+			productRefGroup = 787BF09113EBDB00002291AF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				787BF08F13EBDB00002291AF /* libhypemFramework */,
+				787BF0A713EBDB01002291AF /* libhypemFrameworkTests */,
+				78C0802913EBF7E50069FE11 /* libhypemLibrary */,
+				78C0803713EBF7E50069FE11 /* libhypemLibraryTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		787BF08E13EBDB00002291AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787BF09E13EBDB01002291AF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		787BF0A513EBDB01002291AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787BF0B413EBDB01002291AF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78C0803513EBF7E50069FE11 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0804713EBF7E60069FE11 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		787BF0A613EBDB01002291AF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		78C0803613EBF7E50069FE11 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		787BF08B13EBDB00002291AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0802313EBE9EC0069FE11 /* Playlist.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		787BF0A313EBDB01002291AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787BF0B713EBDB01002291AF /* PlaylistTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78C0802613EBF7E50069FE11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0805113EBF9810069FE11 /* Playlist.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78C0803313EBF7E50069FE11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C0805313EBFC680069FE11 /* PlaylistTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		787BF0AD13EBDB01002291AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 787BF08F13EBDB00002291AF /* libhypemFramework */;
+			targetProxy = 787BF0AC13EBDB01002291AF /* PBXContainerItemProxy */;
+		};
+		78C0804013EBF7E60069FE11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78C0802913EBF7E50069FE11 /* libhypemLibrary */;
+			targetProxy = 78C0803F13EBF7E60069FE11 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		787BF09C13EBDB01002291AF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				787BF09D13EBDB01002291AF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		787BF0B213EBDB01002291AF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				787BF0B313EBDB01002291AF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		78C0804513EBF7E60069FE11 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				78C0804613EBF7E60069FE11 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		787BF0B813EBDB01002291AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		787BF0B913EBDB01002291AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		787BF0BB13EBDB01002291AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypem/libhypem-Prefix.pch";
+				INFOPLIST_FILE = "libhypem/libhypem-Info.plist";
+				PRODUCT_NAME = libhypem;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		787BF0BC13EBDB01002291AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypem/libhypem-Prefix.pch";
+				INFOPLIST_FILE = "libhypem/libhypem-Info.plist";
+				PRODUCT_NAME = libhypem;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		787BF0BE13EBDB01002291AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypem/libhypem-Prefix.pch";
+				INFOPLIST_FILE = "libhypemTests/libhypemTests-Info.plist";
+				PRODUCT_NAME = libhypemFrameworkTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		787BF0BF13EBDB01002291AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypem/libhypem-Prefix.pch";
+				INFOPLIST_FILE = "libhypemTests/libhypemTests-Info.plist";
+				PRODUCT_NAME = libhypemFrameworkTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		78C0804C13EBF7E60069FE11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/libhypemLibrary.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypemLibrary/libhypemLibrary-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
+				PRODUCT_NAME = libhypem;
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		78C0804D13EBF7E60069FE11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/libhypemLibrary.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypemLibrary/libhypemLibrary-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
+				PRODUCT_NAME = libhypem;
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		78C0804F13EBF7E60069FE11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypemLibrary/libhypemLibrary-Prefix.pch";
+				INFOPLIST_FILE = "libhypemLibraryTests/libhypemLibraryTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_NAME = libhypemLibraryTests;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		78C0805013EBF7E60069FE11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libhypemLibrary/libhypemLibrary-Prefix.pch";
+				INFOPLIST_FILE = "libhypemLibraryTests/libhypemLibraryTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_NAME = libhypemLibraryTests;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		787BF08913EBDB00002291AF /* Build configuration list for PBXProject "libhypem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				787BF0B813EBDB01002291AF /* Debug */,
+				787BF0B913EBDB01002291AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		787BF0BA13EBDB01002291AF /* Build configuration list for PBXNativeTarget "libhypemFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				787BF0BB13EBDB01002291AF /* Debug */,
+				787BF0BC13EBDB01002291AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		787BF0BD13EBDB01002291AF /* Build configuration list for PBXNativeTarget "libhypemFrameworkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				787BF0BE13EBDB01002291AF /* Debug */,
+				787BF0BF13EBDB01002291AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78C0804B13EBF7E60069FE11 /* Build configuration list for PBXNativeTarget "libhypemLibrary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78C0804C13EBF7E60069FE11 /* Debug */,
+				78C0804D13EBF7E60069FE11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78C0804E13EBF7E60069FE11 /* Build configuration list for PBXNativeTarget "libhypemLibraryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78C0804F13EBF7E60069FE11 /* Debug */,
+				78C0805013EBF7E60069FE11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 787BF08613EBDB00002291AF /* Project object */;
+}
