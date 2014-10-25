@@ -39,7 +39,7 @@ typedef void (^LoginCompletion) (bool success, NSHTTPCookie *cookie, NSError *er
  @param pass   - HypeM password
  @return    User in the completion block if successful
  */
-- (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(LoginCompletion)completion;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(LoginCompletion)completion;
 
 /**
  Ends the current HypeM session, and destroys the cookie

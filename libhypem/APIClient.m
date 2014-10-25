@@ -9,8 +9,10 @@
 #import "APIClient.h"
 
 #define kBaseURLAddress @"https://api.hypem.com/"
-#define kCookieDomain @"hypem.com"
+#define kAuthCookieName @"AUTH"
+#define kCookieDomain @"http://hypem.com"
 #define kMaxConcurrentConnections 15
+#define kLoginAction @"%@/inc/user_action"
 
 @interface APIClient()
 
@@ -29,14 +31,16 @@
 	return self;
 }
 
-- (void)loginWithUsername:(NSString *)username pass:(NSString *)password completion:(LoginCompletion)completion {
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password andCookie:(NSHTTPCookie*)cookie completion:(LoginCompletion)completion {
 	// Now let's attempt to login
-	NSString *urlPath = [NSString stringWithFormat:@"%@/inc/user_action", kBaseURLAddress];
+	NSString *urlPath = [NSString stringWithFormat:kLoginAction, kBaseURLAddress];
 	
 	// Build the body data
-	NSString *session = @"45c4ae2ff2044580a373744e41b3b839"; // TODO: generize me
+	NSString *authCookie = [cookie.value stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSArray *authCookieArray = [authCookie componentsSeparatedByString:@":"];
+	// TODO: get session off Cookie
+	NSString *session = authCookieArray[1];
 	NSString *bodyString = [NSString stringWithFormat:@"act=login&session=%@&user_screen_name=%@&user_password=%@", session, username, password];
-	NSLog(@"bodyString: %@", bodyString);
 	NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
@@ -54,11 +58,9 @@
 			// Now attempt part 3
 			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
 			if (responseString) {
-				NSLog(@"responseString: %@, %i", responseString, [responseString rangeOfString:[@"'status':'ok'" stringByReplacingOccurrencesOfString:@"'" withString:@"\""]].location);
-				if ([responseString rangeOfString:[@"'status':'ok'" stringByReplacingOccurrencesOfString:@"'" withString:@"\""]].location >= 0) {
+				if ([responseString rangeOfString:[@"'status':'ok'" stringByReplacingOccurrencesOfString:@"'" withString:@"\""]].location > 0) {
 					// Login Succeded
 					dispatch_async(dispatch_get_main_queue(), ^{
-						NSLog(@"DISPATCH YES");
 						completion(YES, nil, nil);
 					});
 				}
@@ -134,6 +136,20 @@
 	for (Operation *operation in self.queue.operations) {
 		[operation cancel];
 	}
+}
+
+#pragma mark - Cookie
+
++ (NSHTTPCookie *)getCookie {
+	NSArray *cookieArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:kCookieDomain]];
+	if (cookieArray.count > 0) {
+		for (NSHTTPCookie *cookie in cookieArray) {
+			if ([cookie.name isEqualToString:kAuthCookieName]) {
+				return cookie;
+			}
+		}
+	}
+	return nil;
 }
 
 @end

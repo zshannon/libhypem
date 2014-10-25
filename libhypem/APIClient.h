@@ -8,19 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
-
-#pragma mark - Blocks
-typedef void (^LoginCompletion) (bool success, NSHTTPCookie *cookie, NSError *error);
+#import "HypeM.h"
 
 #pragma mark - APIClient
 @interface APIClient : NSObject
 
 #pragma mark - Authorization
-- (void)loginWithUsername:(NSString *)username pass:(NSString *)password completion:(LoginCompletion)completion;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password andCookie:(NSHTTPCookie*)cookie completion:(LoginCompletion)completion;
 - (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion;
 
 #pragma mark - Manage Requests
 - (void)cancelAllRequests;
+
++ (NSHTTPCookie *)getCookie;
 
 @end
 

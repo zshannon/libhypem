@@ -16,7 +16,6 @@
 @property (strong, nonatomic) NSHTTPCookie *cookie;
 @property (strong, nonatomic) User *user;
 
-+ (NSHTTPCookie *)getCookie;
 - (void)setCookie:(NSHTTPCookie *)cookie user:(User *)user;
 - (void) validateAndSetCookieWithCompletion:(LoginCompletion)completion;
 
@@ -58,7 +57,7 @@ static HypeM * _sharedInstance = nil;
 #pragma mark - Session
 - (void) startSession {
 	// Set Values from Defaults
-	self.cookie = [HypeM getCookie];
+	self.cookie = [APIClient getCookie];
 	
 	// Validate User/Cookie
 	__weak typeof(self) wSelf = self;
@@ -75,33 +74,6 @@ static HypeM * _sharedInstance = nil;
 	}];
 }
 
-
-#pragma mark - Cookie
-
-+ (NSHTTPCookie *)getCookie {
-	NSArray *cookieArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"https://news.ycombinator.com/"]];
-	if (cookieArray.count > 0) {
-		NSHTTPCookie *cookie = cookieArray[0];
-		if ([cookie.name isEqualToString:@"user"]) {
-			return cookie;
-		}
-	}
-	
-	return nil;
-}
-
-- (void)setCookie:(NSHTTPCookie *)cookie user:(User *)user {
-	self.user = user;
-	self.cookie = cookie;
-}
-
-- (void) validateAndSetCookieWithCompletion:(LoginCompletion)completion {
-	NSHTTPCookie *cookie = [HypeM getCookie];
-	if (cookie) {
-		[self.client validateAndSetSessionWithCookie:cookie completion:completion];
-	}
-}
-
 #pragma mark - Check for Logged In User
 - (BOOL) userIsLoggedIn {
 	return self.cookie && self.user;
@@ -109,17 +81,15 @@ static HypeM * _sharedInstance = nil;
 
 
 #pragma mark - APIClient Methods
-- (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(LoginCompletion)completion {
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(LoginCompletion)completion {
 	__weak typeof(self) wSelf = self;
-	[self.client loginWithUsername:user pass:pass completion:^(bool success, NSHTTPCookie *cookie, NSError *error) {
-		if (user && cookie && wSelf) {
-			__strong typeof(wSelf) sSelf = wSelf;
-			
+	[self.client loginWithUsername:username andPassword:password andCookie:self.cookie completion:^(bool success, NSHTTPCookie *cookie, NSError *error) {
+		if (username && cookie && wSelf) {
 			// Set Cookie & User
 			//[sSelf setCookie:cookie user:user];
 			
 			// Post Notification
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:user];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:username];
 			
 			// Pass user on through
 			completion(success, cookie, error);
@@ -140,6 +110,18 @@ static HypeM * _sharedInstance = nil;
 	
 	// Post Notification
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:nil];
+}
+
+- (void)setCookie:(NSHTTPCookie *)cookie user:(User *)user {
+	self.user = user;
+	self.cookie = cookie;
+}
+
+- (void) validateAndSetCookieWithCompletion:(LoginCompletion)completion {
+	NSHTTPCookie *cookie = [APIClient getCookie];
+	if (cookie) {
+		[self.client validateAndSetSessionWithCookie:cookie completion:completion];
+	}
 }
 
 @end

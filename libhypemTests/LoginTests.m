@@ -11,6 +11,7 @@
 #import "XCTestCase+AsyncTesting.h"
 #import "TestingContstants.h"
 #import "HypeM.h"
+#import "APIClient.h"
 
 @interface LoginTests : XCTestCase
 
@@ -18,11 +19,16 @@
 
 @implementation LoginTests
 
+- (void)testCookie {
+	XCTAssertNotNil([APIClient getCookie]);
+}
+
 - (void)testLogin {
 	NSString *username = kUSERNAME;
 	NSString *password = kPASSWORD;
 	HypeM *h = [HypeM sharedInstance];
-	[h loginWithUsername:username password:password completion:^(bool success, NSHTTPCookie *cookie, NSError *error) {
+	[h startSession];
+	[h loginWithUsername:username andPassword:password completion:^(bool success, NSHTTPCookie *cookie, NSError *error) {
 		XCTAssertTrue(success);
 		[self notify:XCTAsyncTestCaseStatusSucceeded];
 	}];
