@@ -7,6 +7,7 @@
 //
 
 #import "APIClient.h"
+#import "User.h"
 
 #define kBaseURLAddress @"https://api.hypem.com/"
 #define kAuthCookieName @"AUTH"
@@ -17,6 +18,8 @@
 @interface APIClient()
 
 @property (nonatomic, retain) NSOperationQueue *queue;
+
++ (NSHTTPCookie *)getCookie;
 
 @end
 
@@ -31,22 +34,28 @@
 	return self;
 }
 
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password andCookie:(NSHTTPCookie*)cookie completion:(LoginCompletion)completion {
-	// Now let's attempt to login
+#pragma mark - Authorization
+
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(void (^)(User *, NSError *))completion {
 	NSString *urlPath = [NSString stringWithFormat:kLoginAction, kBaseURLAddress];
-	
-	// Build the body data
+	NSHTTPCookie *cookie = [APIClient getCookie];
+	if (cookie == nil) {
+		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
+		completion(nil, error);
+		return;
+	}
+	// This is how we extract a session id from the cookie.. reverse engineered from hypem's JS
 	NSString *authCookie = [cookie.value stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 	NSArray *authCookieArray = [authCookie componentsSeparatedByString:@":"];
-	// TODO: get session off Cookie
-	NSString *session = authCookieArray[1];
-	NSString *bodyString = [NSString stringWithFormat:@"act=login&session=%@&user_screen_name=%@&user_password=%@", session, username, password];
+	NSString *session_id = authCookieArray[1];
+	// This is the contstruction the auth checker expects
+	NSString *bodyString = [NSString stringWithFormat:@"act=login&session=%@&user_screen_name=%@&user_password=%@", session_id, username, password];
 	NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
 	[request setHTTPShouldHandleCookies:NO];
 	[request setHTTPMethod:@"POST"];
-	[request setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	[request setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"]; // Critical
 	[request setHTTPBody:bodyData];
 	
 	// Start the Operation
@@ -58,77 +67,50 @@
 			// Now attempt part 3
 			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
 			if (responseString) {
-				if ([responseString rangeOfString:[@"'status':'ok'" stringByReplacingOccurrencesOfString:@"'" withString:@"\""]].location > 0) {
+				NSError *error = nil;
+				id object = [NSJSONSerialization
+							 JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding]
+							 options:0
+							 error:&error];
+				if (error) {
+					error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					completion(nil, error);
+					return;
+				}
+				if ([[object valueForKey:@"status"] isEqualToString:@"ok"]) {
 					// Login Succeded
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(YES, nil, nil);
+						User *user = [[User alloc] init];
+						completion(user, nil);
 					});
 				}
 				else {
-					// Login failed
+					// Login failed, probably invalid password
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(NO, nil, nil);
+						NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:3 userInfo:@{@"message": @"invalid username or password"}];
+						completion(nil, error);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
-					completion(NO, nil,nil);
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				completion(NO, nil,nil);
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				completion(nil, error);
 			});
 		}
 	};
 	[self.queue addOperation:operation];
 }
 
-- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion {
-	// And finally we attempt to create the User
-	// Build URL String
-	NSString *urlPath = [NSString stringWithFormat:@"%@user?id=pg", kBaseURLAddress];
-	
-	// Start the Operation
-	Operation *operation = [[Operation alloc] init];
-	__block Operation *blockOperation = operation;
-	[operation setUrlPath:urlPath data:nil cookie:cookie completion:^{
-		if (blockOperation.responseData) {
-			// Now attempt part 3
-			NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
-			if (html) {
-				if ([html rangeOfString:@"<a href=\"logout"].location != NSNotFound) {
-					NSScanner *scanner = [[NSScanner alloc] initWithString:html];
-					NSString *trash = @"", *userString = @"", *karma=@"";
-					[scanner scanUpToString:@"<a href=\"threads?id=" intoString:&trash];
-					[scanner scanString:@"<a href=\"threads?id=" intoString:&trash];
-					[scanner scanUpToString:@"\">" intoString:&userString];
-					[scanner scanUpToString:@"&nbsp;(" intoString:&trash];
-					[scanner scanString:@"&nbsp;(" intoString:&trash];
-					[scanner scanUpToString:@")" intoString:&karma];
-					//[self getLoggedInUser:userString karma:[karma intValue] completion:completion];
-				}
-				else {
-					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(NO, nil, nil);
-					});
-				}
-			}
-			else {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					completion(NO, nil, nil);
-				});
-			}
-		}
-		else {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				completion(NO, nil, nil);
-			});
-		}
-	}];
-	[self.queue addOperation:operation];
++ (void) clearCookies {
+	[[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:[APIClient getCookie]];
 }
 
 #pragma mark - Manage Requests
@@ -138,7 +120,7 @@
 	}
 }
 
-#pragma mark - Cookie
+#pragma mark - Private Methods
 
 + (NSHTTPCookie *)getCookie {
 	NSArray *cookieArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:kCookieDomain]];

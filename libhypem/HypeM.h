@@ -12,7 +12,7 @@
 
 @interface HypeM : NSObject
 
-typedef void (^LoginCompletion) (bool success, NSHTTPCookie *cookie, NSError *error);
+extern NSString *const HMUserAuthenticationChangedNotification;
 
 #pragma mark - Singleton Manager
 /**
@@ -20,26 +20,19 @@ typedef void (^LoginCompletion) (bool success, NSHTTPCookie *cookie, NSError *er
  */
 + (HypeM *)sharedInstance;
 
-#pragma mark - Session
-/**
- This is the ideal method to start the HypeM session. It attempts to find a cookie and log a user in if it does find one. You should call this method in the AppDelegate.
- */
-- (void)startSession;
-
 /**
  Determines if a user is currently logged in or not.
  @return    BOOL for YES a user is logged in.
  */
 - (BOOL)userIsLoggedIn;
 
-#pragma mark - APIClient Methods
+#pragma mark - Authentication Methods
 /**
  Attempts to login to HypeM with a username and password.
  @param user   - HypeM username
  @param pass   - HypeM password
- @return    User in the completion block if successful
  */
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(LoginCompletion)completion;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password andCompletion:(void (^)(User *, NSError *))completion;
 
 /**
  Ends the current HypeM session, and destroys the cookie

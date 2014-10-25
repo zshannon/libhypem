@@ -73,7 +73,7 @@
 		787BF09B13EBDB01002291AF /* libhypem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libhypem-Info.plist"; sourceTree = "<group>"; };
 		787BF09D13EBDB01002291AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		787BF09F13EBDB01002291AF /* libhypem-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libhypem-Prefix.pch"; sourceTree = "<group>"; };
-		787BF0A813EBDB01002291AF /* libhypemFrameworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libhypemFrameworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		787BF0A813EBDB01002291AF /* libhypemFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libhypemFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		787BF0B113EBDB01002291AF /* libhypemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libhypemTests-Info.plist"; sourceTree = "<group>"; };
 		787BF0B313EBDB01002291AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		787BF0B613EBDB01002291AF /* PlaylistTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaylistTests.m; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				787BF09013EBDB00002291AF /* libhypem.framework */,
-				787BF0A813EBDB01002291AF /* libhypemFrameworkTests.octest */,
+				787BF0A813EBDB01002291AF /* libhypemFrameworkTests.xctest */,
 				78C0802A13EBF7E50069FE11 /* liblibhypem.a */,
 				78C0803813EBF7E50069FE11 /* libhypemLibraryTests.octest */,
 			);
@@ -318,7 +318,7 @@
 			);
 			name = libhypemFrameworkTests;
 			productName = libhypemTests;
-			productReference = 787BF0A813EBDB01002291AF /* libhypemFrameworkTests.octest */;
+			productReference = 787BF0A813EBDB01002291AF /* libhypemFrameworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		78C0802913EBF7E50069FE11 /* libhypemLibrary */ = {

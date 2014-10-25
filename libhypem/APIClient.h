@@ -7,20 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "User.h"
-#import "HypeM.h"
 
-#pragma mark - APIClient
+@class User, HypeM;
+
 @interface APIClient : NSObject
 
 #pragma mark - Authorization
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password andCookie:(NSHTTPCookie*)cookie completion:(LoginCompletion)completion;
-- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(void (^)(User *user, NSError *error))completion;
++ (void) clearCookies;
 
 #pragma mark - Manage Requests
 - (void)cancelAllRequests;
-
-+ (NSHTTPCookie *)getCookie;
 
 @end
 
