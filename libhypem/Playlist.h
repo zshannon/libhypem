@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #pragma mark - Enums
-typedef NS_ENUM(NSInteger, PlaylistType) {
+typedef NS_ENUM(NSInteger, PopularArgs) {
 	PlaylistThreeDay,
 	PlaylistLastWeek,
 	PlaylistNoRemix,
@@ -34,5 +34,14 @@ typedef NS_ENUM(NSInteger, PlaylistType) {
 };
 
 @interface Playlist : NSObject 
+
+@property (strong, nonatomic) NSString *type;
+@property (strong, nonatomic) NSString *arguments;
+@property (strong, nonatomic) NSArray *tracks;
+
++ (Playlist*) popular;
++ (Playlist*) latest;
+
+- (void) getNextPage:(void (^)(NSError *error))completion;
 
 @end

@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class User, HypeM;
+@class HypeM, Playlist, User, Track;
 
 @interface APIClient : NSObject
 
 #pragma mark - Authorization
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(void (^)(User *user, NSError *error))completion;
 + (void) clearCookies;
+
+#pragma mark - Playlists
+- (void) getPlaylistOfType:(NSString*)type withArg:(NSString*)arg andPage:(NSUInteger)page withCompletion:(void (^)(NSArray *tracks, NSError *error))completion;
 
 #pragma mark - Manage Requests
 - (void)cancelAllRequests;

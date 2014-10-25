@@ -7,13 +7,17 @@
 //
 
 #import "APIClient.h"
+#import "Playlist.h"
 #import "User.h"
+#import "Track.h"
 
-#define kBaseURLAddress @"https://api.hypem.com/"
+#define kBaseURLAddress @"https://api.hypem.com"
 #define kAuthCookieName @"AUTH"
 #define kCookieDomain @"http://hypem.com"
 #define kMaxConcurrentConnections 15
+
 #define kLoginAction @"%@/inc/user_action"
+#define kPlaylistAction @"%@/playlist/:type/:arg/json/:page"
 
 @interface APIClient()
 
@@ -40,7 +44,7 @@
 	NSString *urlPath = [NSString stringWithFormat:kLoginAction, kBaseURLAddress];
 	NSHTTPCookie *cookie = [APIClient getCookie];
 	if (cookie == nil) {
-		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
+		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
 		completion(nil, error);
 		return;
 	}
@@ -73,7 +77,7 @@
 							 options:0
 							 error:&error];
 				if (error) {
-					error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
 					completion(nil, error);
 					return;
 				}
@@ -87,21 +91,21 @@
 				else {
 					// Login failed, probably invalid password
 					dispatch_async(dispatch_get_main_queue(), ^{
-						NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:3 userInfo:@{@"message": @"invalid username or password"}];
+						NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"invalid username or password"}];
 						completion(nil, error);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
-					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
 					completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.hypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:5 userInfo:@{@"message": @"got no response from hypem"}];
 				completion(nil, error);
 			});
 		}
@@ -111,6 +115,87 @@
 
 + (void) clearCookies {
 	[[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:[APIClient getCookie]];
+}
+
+#pragma mark - Playlists
+- (void) getPlaylistOfType:(NSString*)type withArg:(NSString*)arg andPage:(NSUInteger)page withCompletion:(void (^)(NSArray *tracks, NSError *error))completion {
+	NSString *urlPath = [NSString stringWithFormat:kPlaylistAction, kBaseURLAddress];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":type" withString:type];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":arg" withString:arg];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":page" withString:[NSString stringWithFormat:@"%lu", (unsigned long)page]];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+	[request setHTTPShouldHandleCookies:NO];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"text/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	
+	// Start the Operation
+	Operation *operation = [[Operation alloc] init];
+	operation.urlRequest = request;
+	__block Operation *blockOperation = operation;
+	operation.completionBlock = ^{
+		if (blockOperation.responseData) {
+			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+			
+			if (responseString) {
+				NSError *error = nil;
+				id object = [NSJSONSerialization
+							 JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding]
+							 options:0
+							 error:&error];
+				if (error || ![object isKindOfClass:[NSDictionary class]]) {
+					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					completion(nil, error);
+				}
+				else {
+					
+					NSMutableArray *tracks = [[NSMutableArray alloc] init];
+					
+					int count = 0;
+					for (NSString* key in object) {
+						if ([[object objectForKey:key] isKindOfClass:[NSDictionary class]]) {
+							count++;
+						}
+					}
+					NSInteger offset = (page - 1) * count;
+					
+					for (NSString* key in object) {
+						id value = [object objectForKey:key];
+						NSInteger index = [key integerValue];
+						if ([value isKindOfClass:[NSDictionary class]]) {
+							NSMutableDictionary *mutableValue = [value mutableCopy];
+							[mutableValue setObject:[NSNumber numberWithLong:(index + offset)] forKey:@"position"];
+							NSDictionary *metadata = [mutableValue copy];
+							Track *track = [Track trackFromMetadata:metadata];
+							[tracks addObject:track];
+						}
+					}
+					
+					NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES];
+					NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+					NSArray *sortedTracks = [tracks sortedArrayUsingDescriptors:sortDescriptors];
+					
+					dispatch_async(dispatch_get_main_queue(), ^{
+					
+						completion(sortedTracks, nil);
+					});
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completion(nil, error);
+				});
+			}
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				completion(nil, error);
+			});
+		}
+	};
+	[self.queue addOperation:operation];
 }
 
 #pragma mark - Manage Requests

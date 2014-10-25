@@ -8,23 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class APIClient, User;
+@class APIClient, User, Playlist;
 
 @interface HypeM : NSObject
 
 extern NSString *const HMUserAuthenticationChangedNotification;
 
-#pragma mark - Singleton Manager
-/**
- This is the singleton object that all of your HypeM API calls will go through.
- */
-+ (HypeM *)sharedInstance;
-
-/**
- Determines if a user is currently logged in or not.
- @return    BOOL for YES a user is logged in.
- */
-- (BOOL)userIsLoggedIn;
+@property (strong, nonatomic) APIClient *client;
 
 #pragma mark - Authentication Methods
 /**
@@ -38,5 +28,17 @@ extern NSString *const HMUserAuthenticationChangedNotification;
  Ends the current HypeM session, and destroys the cookie
  */
 - (void)logout;
+
+/**
+ Determines if a user is currently logged in or not.
+ @return    BOOL for YES a user is logged in.
+ */
+- (BOOL)userIsLoggedIn;
+
+#pragma mark - Singleton Manager
+/**
+ This is the singleton object that all of your HypeM API calls will go through.
+ */
++ (HypeM *)sharedInstance;
 
 @end

@@ -23,7 +23,45 @@
 //------------------------------------------------------------------------------
 
 #import "Playlist.h"
+#import "HypeM.h"
+#import "APIClient.h"
+
+@interface Playlist()
+
+@property NSUInteger page;
+
+@end
 
 @implementation Playlist
+
++ (Playlist*) popular {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"popular";
+	playlist.arguments = @"3day";
+	return playlist;
+}
+
++ (Playlist*) latest {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"latest";
+	playlist.arguments = @"";
+	return playlist;
+}
+
+- (void) getNextPage:(void (^)(NSError *error))completion {
+	if (self.page <= 0) self.page = 0;
+	self.page++;
+	__block Playlist *wself = self;
+	APIClient *client = [HypeM sharedInstance].client;
+	[client getPlaylistOfType:self.type withArg:self.arguments andPage:self.page withCompletion:^(NSArray *tracks, NSError *error) {
+		if (error == nil) {
+			NSMutableArray *mergedTracks = [[NSMutableArray alloc] init];
+			[mergedTracks addObjectsFromArray:wself.tracks];
+			[mergedTracks addObjectsFromArray:tracks];
+			wself.tracks = [mergedTracks copy];
+		}
+		completion(error);
+	}];
+}
 
 @end

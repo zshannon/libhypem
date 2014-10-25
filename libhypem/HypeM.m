@@ -9,10 +9,10 @@
 #import "HypeM.h"
 #import "APIClient.h"
 #import "User.h"
+#import "Playlist.h"
 
 @interface HypeM()
 
-@property (strong, nonatomic) APIClient *client;
 @property (strong, nonatomic) User *user;
 
 @end
@@ -23,33 +23,6 @@ NSString *const HMUserAuthenticationChangedNotification = @"HMUserAuthentication
 
 // Build the static manager object
 static HypeM * _sharedInstance = nil;
-
-#pragma mark - Set Up HNManager's Singleton
-+ (HypeM *) sharedInstance {
-	@synchronized([HypeM class]) {
-		if (!_sharedInstance)
-			_sharedInstance  = [[HypeM alloc] init];
-		return _sharedInstance;
-	}
-	return nil;
-}
-
-+ (id) alloc {
-	@synchronized([HypeM class]) {
-		NSAssert(_sharedInstance == nil, @"Attempted to allocate a second instance of a singleton.");
-		_sharedInstance = [super alloc];
-		return _sharedInstance;
-	}
-	return nil;
-}
-
-- (instancetype) init {
-	if (self = [super init]) {
-		// Set up APIClient
-		self.client = [[APIClient alloc] init];
-	}
-	return self;
-}
 
 #pragma mark - Check for Logged In User
 - (BOOL) userIsLoggedIn {
@@ -76,6 +49,33 @@ static HypeM * _sharedInstance = nil;
 	[APIClient clearCookies];
 	self.user = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:HMUserAuthenticationChangedNotification object:nil];
+}
+
+#pragma mark - Set Up HypeM's Singleton
++ (HypeM *) sharedInstance {
+	@synchronized([HypeM class]) {
+		if (!_sharedInstance)
+			_sharedInstance  = [[HypeM alloc] init];
+		return _sharedInstance;
+	}
+	return nil;
+}
+
++ (id) alloc {
+	@synchronized([HypeM class]) {
+		NSAssert(_sharedInstance == nil, @"Attempted to allocate a second instance of a singleton.");
+		_sharedInstance = [super alloc];
+		return _sharedInstance;
+	}
+	return nil;
+}
+
+- (instancetype) init {
+	if (self = [super init]) {
+		// Set up APIClient
+		self.client = [[APIClient alloc] init];
+	}
+	return self;
 }
 
 @end

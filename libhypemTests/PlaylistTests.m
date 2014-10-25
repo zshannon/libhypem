@@ -23,14 +23,65 @@
 //------------------------------------------------------------------------------
 
 #import <XCTest/XCTest.h>
+#import "XCTestCase+AsyncTesting.h"
 #import "Playlist.h"
+#import "HypeM.h"
+#import "Track.h"
 
 
 @interface PlaylistTests : XCTestCase
 
 @end
 
-
 @implementation PlaylistTests
+
+- (void)testplaylist {
+	Playlist *playlist = [Playlist popular];
+	XCTAssertNotNil(playlist);
+	[playlist getNextPage:^(NSError *error) {
+		XCTAssertNil(error);
+		XCTAssertNotEqual(playlist.tracks.count, 0);
+		NSInteger count = playlist.tracks.count;
+		[playlist getNextPage:^(NSError *error) {
+			XCTAssertNil(error);
+			XCTAssertNotEqual(playlist.tracks.count, count);
+			XCTAssertNotEqual(playlist.tracks[0], playlist.tracks[count - 1]);
+			int idx = 0;
+			for (id object in playlist.tracks) {
+				XCTAssertTrue([object isKindOfClass:[Track class]]);
+				Track *track = (Track*) object;
+				XCTAssertEqual(idx, [track.position intValue]);
+				idx++;
+			}
+			[self notify:XCTAsyncTestCaseStatusSucceeded];
+		}];
+	}];
+	[self waitForTimeout:10];
+}
+
+- (void)testLatest {
+	Playlist *playlist = [Playlist latest];
+	XCTAssertNotNil(playlist);
+	[playlist getNextPage:^(NSError *error) {
+		XCTAssertNil(error);
+		XCTAssertNotEqual(playlist.tracks.count, 0);
+		NSInteger count = playlist.tracks.count;
+		[playlist getNextPage:^(NSError *error) {
+			XCTAssertNil(error);
+			XCTAssertNotEqual(playlist.tracks.count, count);
+			XCTAssertNotEqual(playlist.tracks[0], playlist.tracks[count - 1]);
+			int idx = 0;
+			for (id object in playlist.tracks) {
+				XCTAssertTrue([object isKindOfClass:[Track class]]);
+				Track *track = (Track*) object;
+				XCTAssertEqual(idx, [track.position intValue]);
+				idx++;
+			}
+			[self notify:XCTAsyncTestCaseStatusSucceeded];
+		}];
+	}];
+	[self waitForTimeout:10];
+}
+
 
 @end
