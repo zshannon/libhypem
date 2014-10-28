@@ -39,8 +39,19 @@ typedef NS_ENUM(NSInteger, PopularArgs) {
 @property (strong, nonatomic) NSString *arguments;
 @property (strong, nonatomic) NSArray *tracks;
 
-+ (Playlist*) popular;
-+ (Playlist*) latest;
++ (Playlist*) popular:(NSString*)filter;
++ (Playlist*) latest:(NSString*)filter;
++ (Playlist*) friendsHistory:(NSString*)username;
++ (Playlist*) friendsFavorites:(NSString*)username;
++ (Playlist*) tagged:(NSString*)tag;
++ (Playlist*) taggedWithTags:(NSArray*)tags;
++ (Playlist*) blog:(NSString*)name;
++ (Playlist*) search:(NSString*)query;
++ (Playlist*) artist:(NSString*)name;
++ (Playlist*) feed:(NSString*)name;
++ (Playlist*) loved:(NSString*)username;
++ (Playlist*) obsessed:(NSString*)username;
+
 
 - (void) getNextPage:(void (^)(NSError *error))completion;
 

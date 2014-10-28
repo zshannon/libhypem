@@ -34,17 +34,94 @@
 
 @implementation Playlist
 
-+ (Playlist*) popular {
++ (Playlist*) popular:(NSString*)filter {
 	Playlist *playlist = [[Playlist alloc] init];
+	NSArray *knownArgs = @[@"3day", @"lastweek", @"noremix", @"artists", @"twitter"];
+	if (filter == nil) filter = knownArgs[0];
+	if (![knownArgs containsObject:filter]) {
+		[NSException raise:@"Invalid Popular Filter value" format:@"filter %@ is invalid", filter];
+	}
 	playlist.type = @"popular";
-	playlist.arguments = @"3day";
+	playlist.arguments = filter;
 	return playlist;
 }
 
-+ (Playlist*) latest {
++ (Playlist*) latest:(NSString*)filter {
 	Playlist *playlist = [[Playlist alloc] init];
+	NSArray *knownArgs = @[@"all", @"noremix", @"remix", @"fresh"];
+	if (filter == nil) filter = knownArgs[0];
+	if (![knownArgs containsObject:filter]) {
+		[NSException raise:@"Invalid Latest Filter value" format:@"filter %@ is invalid", filter];
+	}
 	playlist.type = @"latest";
 	playlist.arguments = @"";
+	return playlist;
+}
+
++ (Playlist*) friendsHistory:(NSString*)username {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"people_history";
+	playlist.arguments = username;
+	return playlist;
+}
+
++ (Playlist*) friendsFavorites:(NSString*)username {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"people";
+	playlist.arguments = username;
+	return playlist;
+}
+
++ (Playlist*) tagged:(NSString*)tag {
+	return [Playlist taggedWithTags:@[tag]];
+}
+
++ (Playlist*) taggedWithTags:(NSArray*)tags {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"tags";
+	playlist.arguments = [tags componentsJoinedByString:@","];
+	return playlist;
+}
+
++ (Playlist*) blog:(NSString*)name {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"blog";
+	playlist.arguments = name;
+	return playlist;
+}
+
++ (Playlist*) search:(NSString*)query {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"search";
+	playlist.arguments = query;
+	return playlist;
+}
+
++ (Playlist*) artist:(NSString*)name {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"artist";
+	playlist.arguments = name;
+	return playlist;
+}
+
++ (Playlist*) feed:(NSString*)name {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"feed";
+	playlist.arguments = name;
+	return playlist;
+}
+
++ (Playlist*) loved:(NSString*)username {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"loved";
+	playlist.arguments = username;
+	return playlist;
+}
+
++ (Playlist*) obsessed:(NSString*)username {
+	Playlist *playlist = [[Playlist alloc] init];
+	playlist.type = @"obsessed";
+	playlist.arguments = username;
 	return playlist;
 }
 

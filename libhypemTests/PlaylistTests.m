@@ -36,7 +36,7 @@
 @implementation PlaylistTests
 
 - (void)testplaylist {
-	Playlist *playlist = [Playlist popular];
+	Playlist *playlist = [Playlist popular:nil];
 	XCTAssertNotNil(playlist);
 	[playlist getNextPage:^(NSError *error) {
 		XCTAssertNil(error);
@@ -60,7 +60,7 @@
 }
 
 - (void)testLatest {
-	Playlist *playlist = [Playlist latest];
+	Playlist *playlist = [Playlist latest:nil];
 	XCTAssertNotNil(playlist);
 	[playlist getNextPage:^(NSError *error) {
 		XCTAssertNil(error);
@@ -83,5 +83,9 @@
 	[self waitForTimeout:10];
 }
 
+- (void)testPopularAndLatestFilters {
+	XCTAssertThrows([Playlist popular:@"this-is-fake"]);
+	XCTAssertThrows([Playlist latest:@"this-is-fake"]);
+}
 
 @end
