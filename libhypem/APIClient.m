@@ -7,6 +7,7 @@
 //
 
 #import "APIClient.h"
+#import "Blog.h"
 #import "Playlist.h"
 #import "User.h"
 #import "Track.h"
@@ -496,10 +497,16 @@
 				}
 				else {
 					
-					NSLog(@"PARSE BLOGS: %@", object);
+					NSMutableArray *blogs = [[NSMutableArray alloc] init];
+					
+					for (NSDictionary *blogDictionary in object) {
+						Blog *blog = [Blog blogWithID:[blogDictionary valueForKey:@"username"]];
+						blog.metadata = blogDictionary;
+						[blogs addObject:blog];
+					}
 					
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(object, nil);
+						completion(blogs, nil);
 					});
 				}
 			}

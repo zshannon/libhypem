@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class HypeM, Playlist, User, Track;
+@class Blog, HypeM, Playlist, User, Track;
 
 @interface APIClient : NSObject
 

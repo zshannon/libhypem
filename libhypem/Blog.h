@@ -10,6 +10,9 @@
 
 @interface Blog : NSObject
 
+@property (strong, nonatomic) NSString *id;
 @property (strong, nonatomic) NSDictionary *metadata;
+
++ (Blog*) blogWithID:(NSString*)blog_id;
 
 @end

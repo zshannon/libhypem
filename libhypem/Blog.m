@@ -10,4 +10,10 @@
 
 @implementation Blog
 
++ (Blog*) blogWithID:(NSString*)blog_id {
+	Blog *blog = [[Blog alloc] init];
+	blog.id = blog_id;
+	return blog;
+}
+
 @end
