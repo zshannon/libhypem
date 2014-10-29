@@ -356,6 +356,26 @@
 	[self.queue addOperation:operation];
 }
 
+#pragma mark - Users
+
+- (void) getUserProfile:(User*)user withCompletion:(void (^)(NSError *error))completion {
+	// TODO: implement this! Issue #6
+	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
+	completion(error);
+}
+
+- (void) getFavoriteBlogs:(User*)user withCompletion:(void (^)(NSArray *blogs, NSError *error))completion {
+	// TODO: implement this! Issue #6
+	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
+	completion(nil, error);
+}
+
+- (void) getFriendsForUser:(User*)user withCompletion:(void (^)(NSArray *users, NSError *error))completion {
+	// TODO: implement this! Issue #6
+	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
+	completion(nil, error);
+}
+
 #pragma mark - Manage Requests
 - (void)cancelAllRequests {
 	for (Operation *operation in self.queue.operations) {

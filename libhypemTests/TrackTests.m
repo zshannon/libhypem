@@ -14,7 +14,7 @@
 
 @interface TrackTests : XCTestCase
 
-@property (strong, nonatomic) Playlist *playlist;
+@property (strong, nonatomic) Track *track;
 
 @end
 
@@ -22,22 +22,42 @@
 
 - (void)setUp {
     [super setUp];
-	self.playlist = [Playlist popular:nil];
-	XCTAssertNotNil(self.playlist);
-	[self.playlist getNextPage:^(NSError *error) {
+	Playlist *playlist = [Playlist popular:nil];
+	XCTAssertNotNil(playlist);
+	[playlist getNextPage:^(NSError *error) {
 		XCTAssertNil(error);
-		XCTAssertNotEqual(self.playlist.tracks.count, 0);
+		XCTAssertNotEqual(playlist.tracks.count, 0);
+		self.track = playlist.tracks[0];
 		[self notify:XCTAsyncTestCaseStatusSucceeded];
 	}];
 	[self waitForTimeout:10];
 }
 
-- (void)testDownloadURL {
-	Track *track = self.playlist.tracks[0];
-	XCTAssertNotNil(track);
-	[track downloadURL:^(NSURL *url, NSError *error) {
+- (void)testAttributes {
+	XCTAssertNotNil(self.track);
+	XCTAssertNotNil(self.track.mediaid);
+	XCTAssertNotNil(self.track.siteid);
+	XCTAssertNotNil(self.track.posturl);
+	XCTAssertNotNil(self.track.postid);
+	XCTAssertNotNil(self.track.sitename);
+	XCTAssertNotNil(self.track.dateposted);
+	XCTAssertNotNil([self.track publicDownloadURL]);
+}
+
+- (void)testInternalDownloadURL {
+	XCTAssertNotNil(self.track);
+	[self.track internalDownloadURL:^(NSURL *url, NSError *error) {
 		XCTAssertNil(error);
 		XCTAssertNotNil(url);
+		[self notify:XCTAsyncTestCaseStatusSucceeded];
+	}];
+	[self waitForTimeout:10];
+}
+
+- (void)testFavoriting {
+	XCTAssertNotNil(self.track);
+	[self.track favorite:^(NSError *error) {
+		XCTAssertNil(error);
 		[self notify:XCTAsyncTestCaseStatusSucceeded];
 	}];
 	[self waitForTimeout:10];

@@ -22,6 +22,11 @@
 #pragma mark - Tracks
 - (void) getDownloadURLForTrack:(Track*)track withCompletion:(void (^)(NSURL *url, NSError *error))completion;
 
+#pragma mark - Users
+- (void) getUserProfile:(User*)user withCompletion:(void (^)(NSError *error))completion;
+- (void) getFavoriteBlogs:(User*)user withCompletion:(void (^)(NSArray *blogs, NSError *error))completion;
+- (void) getFriendsForUser:(User*)user withCompletion:(void (^)(NSArray *users, NSError *error))completion;
+
 #pragma mark - Manage Requests
 - (void)cancelAllRequests;
 

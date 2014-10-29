@@ -8,13 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Track : NSObject
+@interface Track:  NSObject
 
 @property (strong, nonatomic) NSDictionary *metadata;
 
-+ (Track*) trackFromMetadata:(NSDictionary*)metadata;
++ (Track*) trackFromMetadata: (NSDictionary*)metadata;
 
+- (NSString*) mediaid;
+- (NSString*) siteid;
+- (NSString*) posturl;
+- (NSString*) postid;
+- (NSString*) sitename;
+- (NSString*) dateposted;
 - (NSNumber*) position;
-- (void) downloadURL:(void (^)(NSURL *url, NSError *error))completion;
+- (NSURL*) publicDownloadURL;
+- (void) internalDownloadURL: (void (^)(NSURL *url, NSError *error))completion;
+- (void) favorite:(void (^)(NSError *error))completion;
 
 @end
