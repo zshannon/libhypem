@@ -23,6 +23,6 @@
 - (NSNumber*) position;
 - (NSURL*) publicDownloadURL;
 - (void) internalDownloadURL: (void (^)(NSURL *url, NSError *error))completion;
-- (void) favorite:(void (^)(NSError *error))completion;
+- (void) toggleFavorite:(void (^)(NSError *error))completion;
 
 @end

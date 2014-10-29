@@ -56,7 +56,7 @@
 
 - (void)testFavoriting {
 	XCTAssertNotNil(self.track);
-	[self.track favorite:^(NSError *error) {
+	[self.track toggleFavorite:^(NSError *error) {
 		XCTAssertNil(error);
 		[self notify:XCTAsyncTestCaseStatusSucceeded];
 	}];

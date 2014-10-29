@@ -58,9 +58,9 @@
 	[client getDownloadURLForTrack:self withCompletion:completion];
 }
 
-- (void) favorite:(void (^)(NSError *error))completion {
+- (void) toggleFavorite:(void (^)(NSError *error))completion {
 	APIClient *client = [HypeM sharedInstance].client;
-	[client favoriteTrack:self withCompletion:completion];
+	[client toggleFavoriteTrack:self withCompletion:completion];
 }
 
 @end

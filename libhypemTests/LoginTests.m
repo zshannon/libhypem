@@ -32,4 +32,14 @@
 	[self waitForTimeout:10];
 }
 
+- (void)testInvalidLogin {
+	HypeM *h = [HypeM sharedInstance];
+	[h loginWithUsername:@"this-is-fake" andPassword:@"this-is-fake" andCompletion:^(User *user, NSError *error) {
+		XCTAssertNil(user);
+		XCTAssertNotNil(error);
+		[self notify:XCTAsyncTestCaseStatusSucceeded];
+	}];
+	[self waitForTimeout:10];
+}
+
 @end

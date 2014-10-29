@@ -71,7 +71,6 @@
 	__block Operation *blockOperation = operation;
 	operation.completionBlock = ^{
 		if (blockOperation.responseData) {
-			// Now attempt part 3
 			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
 			if (responseString) {
 				NSError *error = nil;
@@ -356,10 +355,55 @@
 	[self.queue addOperation:operation];
 }
 
-- (void) favoriteTrack:(Track*)track withCompletion:(void (^)(NSError *error))completion {
-	// TODO: implement this! Issue #5
-	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
-	completion(error);
+- (void) toggleFavoriteTrack:(Track*)track withCompletion:(void (^)(NSError *error))completion {
+	NSString *urlPath = [NSString stringWithFormat:kLoginAction, kBaseAPIAddress];
+	NSHTTPCookie *cookie = [APIClient getCookie];
+	if (cookie == nil) {
+		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
+		completion(error);
+		return;
+	}
+	// This is how we extract a session id from the cookie.. reverse engineered from hypem's JS
+	NSString *authCookie = [cookie.value stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSArray *authCookieArray = [authCookie componentsSeparatedByString:@":"];
+	NSString *session_id = authCookieArray[1];
+	// This is the contstruction the auth checker expects
+	NSString *bodyString = [NSString stringWithFormat:@"act=toggle_favorite&session=%@&type=item&val=%@", session_id, track.mediaid];
+	NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+	[request setHTTPShouldHandleCookies:NO];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"]; // Critical
+	[request setHTTPBody:bodyData];
+	
+	// Start the Operation
+	Operation *operation = [[Operation alloc] init];
+	operation.urlRequest = request;
+	__block Operation *blockOperation = operation;
+	operation.completionBlock = ^{
+		if (blockOperation.responseData) {
+			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+			if (responseString) {
+				if ([responseString isEqualToString:@"1"] || [responseString isEqualToString:@"0"]) {
+					completion(nil); // Success!
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completion(error);
+				});
+			}
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:5 userInfo:@{@"message": @"got no response from hypem"}];
+				completion(error);
+			});
+		}
+	};
+	[self.queue addOperation:operation];
 }
 
 #pragma mark - Users

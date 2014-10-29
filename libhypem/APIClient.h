@@ -21,7 +21,7 @@
 
 #pragma mark - Tracks
 - (void) getDownloadURLForTrack:(Track*)track withCompletion:(void (^)(NSURL *url, NSError *error))completion;
-- (void) favoriteTrack:(Track*)track withCompletion:(void (^)(NSError *error))completion;
+- (void) toggleFavoriteTrack:(Track*)track withCompletion:(void (^)(NSError *error))completion;
 
 #pragma mark - Users
 - (void) getUserProfile:(User*)user withCompletion:(void (^)(NSError *error))completion;
