@@ -52,7 +52,7 @@
 	NSHTTPCookie *cookie = [APIClient getCookie];
 	if (cookie == nil) {
 		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
-		completion(nil, error);
+		if (completion != nil) completion(nil, error);
 		return;
 	}
 	// This is how we extract a session id from the cookie.. reverse engineered from hypem's JS
@@ -84,35 +84,36 @@
 							 error:&error];
 				if (error) {
 					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 					return;
 				}
 				if ([[object valueForKey:@"status"] isEqualToString:@"ok"]) {
 					// Login Succeded
 					dispatch_async(dispatch_get_main_queue(), ^{
 						User *user = [[User alloc] init];
-						completion(user, nil);
+						user.username = username;
+						if (completion != nil) completion(user, nil);
 					});
 				}
 				else {
 					// Login failed, probably invalid password
 					dispatch_async(dispatch_get_main_queue(), ^{
 						NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"invalid username or password"}];
-						completion(nil, error);
+						if (completion != nil) completion(nil, error);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:5 userInfo:@{@"message": @"got no response from hypem"}];
-				completion(nil, error);
+				if (completion != nil) completion(nil, error);
 			});
 		}
 	};
@@ -153,13 +154,13 @@
 					}
 					
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(responseTracks, nil);
+						if (completion != nil) completion(responseTracks, nil);
 					});
 				});
 			}
 		}
 		else {
-			completion(tracks, error);
+			if (completion != nil) completion(tracks, error);
 		}
 	};
 	// JSON Request
@@ -331,28 +332,28 @@
 				
 				if (error || ![object isKindOfClass:[NSDictionary class]]) {
 					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				}
 				else {
 					
 					NSURL *downloadURL = [NSURL URLWithString:[object valueForKey:@"url"]];
 					
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(downloadURL, nil);
+						if (completion != nil) completion(downloadURL, nil);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
-				completion(nil, error);
+				if (completion != nil) completion(nil, error);
 			});
 		}
 	};
@@ -364,7 +365,7 @@
 	NSHTTPCookie *cookie = [APIClient getCookie];
 	if (cookie == nil) {
 		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
-		completion(error);
+		if (completion != nil) completion(error);
 		return;
 	}
 	// This is how we extract a session id from the cookie.. reverse engineered from hypem's JS
@@ -390,20 +391,20 @@
 			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
 			if (responseString) {
 				if ([responseString isEqualToString:@"1"] || [responseString isEqualToString:@"0"]) {
-					completion(nil); // Success!
+					if (completion != nil) completion(nil); // Success!
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
-					completion(error);
+					if (completion != nil) completion(error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:5 userInfo:@{@"message": @"got no response from hypem"}];
-				completion(error);
+				if (completion != nil) completion(error);
 			});
 		}
 	};
@@ -437,25 +438,25 @@
 							 error:&error];
 				if (error || ![object isKindOfClass:[NSDictionary class]]) {
 					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				}
 				else {
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(object, nil);
+						if (completion != nil) completion(object, nil);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
-				completion(nil, error);
+				if (completion != nil) completion(nil, error);
 			});
 		}
 	};
@@ -482,7 +483,7 @@
 			if (responseString) {
 				
 				if ([responseString isEqualToString:@"null"]) {
-					completion(@[], nil);
+					if (completion != nil) completion(@[], nil);
 					return;
 				}
 				
@@ -493,7 +494,7 @@
 							 error:&error];
 				if (error || ![object isKindOfClass:[NSDictionary class]]) {
 					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				}
 				else {
 					
@@ -506,21 +507,21 @@
 					}
 					
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion(blogs, nil);
+						if (completion != nil) completion(blogs, nil);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
-				completion(nil, error);
+				if (completion != nil) completion(nil, error);
 			});
 		}
 	};
@@ -553,7 +554,7 @@
 							 error:&error];
 				if (error || ![object isKindOfClass:[NSArray class]]) {
 					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				}
 				else {
 					
@@ -566,21 +567,21 @@
 					}
 					
 					dispatch_async(dispatch_get_main_queue(), ^{
-						completion([friends copy], nil);
+						if (completion != nil) completion([friends copy], nil);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
 					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
-					completion(nil, error);
+					if (completion != nil) completion(nil, error);
 				});
 			}
 		}
 		else {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
-				completion(nil, error);
+				if (completion != nil) completion(nil, error);
 			});
 		}
 	};

@@ -137,7 +137,7 @@
 			[mergedTracks addObjectsFromArray:tracks];
 			wself.tracks = [mergedTracks copy];
 		}
-		completion(error);
+		if (completion != nil) completion(error);
 	}];
 }
 

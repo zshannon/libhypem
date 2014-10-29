@@ -15,6 +15,7 @@
 extern NSString *const HMUserAuthenticationChangedNotification;
 
 @property (strong, nonatomic) APIClient *client;
+@property (strong, nonatomic) User *user;
 
 #pragma mark - Authentication Methods
 /**

@@ -13,8 +13,6 @@
 
 @interface HypeM()
 
-@property (strong, nonatomic) User *user;
-
 @end
 
 @implementation HypeM
@@ -34,6 +32,7 @@ static HypeM * _sharedInstance = nil;
 	__weak typeof(self) wSelf = self;
 	[self.client loginWithUsername:username andPassword:password completion:^(User *user, NSError *error) {
 		if (error == nil) {
+			[user fetchProfile:nil];
 			wSelf.user = user;
 			// Post Notification
 			[[NSNotificationCenter defaultCenter] postNotificationName:HMUserAuthenticationChangedNotification object:user];

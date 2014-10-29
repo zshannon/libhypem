@@ -60,7 +60,7 @@
 		if (error != nil) {
 			self.metadata = profile;
 		}
-		completion(error);
+		if (completion != nil) completion(error);
 	}];
 }
 
