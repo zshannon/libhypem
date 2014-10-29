@@ -19,6 +19,9 @@
 #pragma mark - Playlists
 - (void) getPlaylistOfType:(NSString*)type withArg:(NSString*)arg andPage:(NSUInteger)page withCompletion:(void (^)(NSArray *tracks, NSError *error))completion;
 
+#pragma mark - Tracks
+- (void) getDownloadURLForTrack:(Track*)track withCompletion:(void (^)(NSURL *url, NSError *error))completion;
+
 #pragma mark - Manage Requests
 - (void)cancelAllRequests;
 

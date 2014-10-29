@@ -15,5 +15,6 @@
 + (Track*) trackFromMetadata:(NSDictionary*)metadata;
 
 - (NSNumber*) position;
+- (void) downloadURL:(void (^)(NSURL *url, NSError *error))completion;
 
 @end

@@ -51,6 +51,7 @@
 				XCTAssertTrue([object isKindOfClass:[Track class]]);
 				Track *track = (Track*) object;
 				XCTAssertEqual(idx, [track.position intValue]);
+				XCTAssertNotNil([track.metadata valueForKey:@"key"]);
 				idx++;
 			}
 			[self notify:XCTAsyncTestCaseStatusSucceeded];
@@ -75,6 +76,7 @@
 				XCTAssertTrue([object isKindOfClass:[Track class]]);
 				Track *track = (Track*) object;
 				XCTAssertEqual(idx, [track.position intValue]);
+				XCTAssertNotNil([track.metadata valueForKey:@"key"]);
 				idx++;
 			}
 			[self notify:XCTAsyncTestCaseStatusSucceeded];

@@ -18,6 +18,7 @@
 		1117ADCA19FA249300B0789E /* LoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADC919FA249300B0789E /* LoginTests.m */; };
 		1117ADD819FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */; };
 		1117ADD919FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */; };
+		117BCF481A007AF0008A99C6 /* TrackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 117BCF471A007AF0008A99C6 /* TrackTests.m */; };
 		787BF09413EBDB00002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
 		787BF09E13EBDB01002291AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 787BF09C13EBDB01002291AF /* InfoPlist.strings */; };
 		787BF0AB13EBDB01002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
@@ -69,6 +70,7 @@
 		1117ADD619FA28E300B0789E /* XCTestCase+AsyncTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+AsyncTesting.h"; sourceTree = "<group>"; };
 		1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+AsyncTesting.m"; sourceTree = "<group>"; };
 		1117ADDA19FA2C5A00B0789E /* TestingContstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestingContstants.h; sourceTree = "<group>"; };
+		117BCF471A007AF0008A99C6 /* TrackTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackTests.m; sourceTree = "<group>"; };
 		787BF09013EBDB00002291AF /* libhypem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libhypem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		787BF09313EBDB00002291AF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		787BF09613EBDB00002291AF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -213,6 +215,7 @@
 			children = (
 				1117ADC919FA249300B0789E /* LoginTests.m */,
 				787BF0B613EBDB01002291AF /* PlaylistTests.m */,
+				117BCF471A007AF0008A99C6 /* TrackTests.m */,
 				787BF0B013EBDB01002291AF /* Supporting Files */,
 				1117ADDA19FA2C5A00B0789E /* TestingContstants.h */,
 			);
@@ -470,6 +473,7 @@
 				787BF0B713EBDB01002291AF /* PlaylistTests.m in Sources */,
 				1117ADD819FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */,
 				1117ADCA19FA249300B0789E /* LoginTests.m in Sources */,
+				117BCF481A007AF0008A99C6 /* TrackTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

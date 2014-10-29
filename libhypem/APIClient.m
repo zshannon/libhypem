@@ -11,13 +11,16 @@
 #import "User.h"
 #import "Track.h"
 
-#define kBaseURLAddress @"https://api.hypem.com"
+#define kBaseAPIAddress @"https://api.hypem.com"
+#define kBaseWebAddress @"http://hypem.com"
 #define kAuthCookieName @"AUTH"
 #define kCookieDomain @"http://hypem.com"
 #define kMaxConcurrentConnections 15
 
 #define kLoginAction @"%@/inc/user_action"
 #define kPlaylistAction @"%@/playlist/:type/:arg/json/:page"
+#define kPlaylistHTMLAction @"%@/:type/:arg/:page"
+#define kTrackDownloadAction @"%@/serve/source/:mediaid/:key"
 
 @interface APIClient()
 
@@ -41,7 +44,7 @@
 #pragma mark - Authorization
 
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completion:(void (^)(User *, NSError *))completion {
-	NSString *urlPath = [NSString stringWithFormat:kLoginAction, kBaseURLAddress];
+	NSString *urlPath = [NSString stringWithFormat:kLoginAction, kBaseAPIAddress];
 	NSHTTPCookie *cookie = [APIClient getCookie];
 	if (cookie == nil) {
 		NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:1 userInfo:@{@"message": @"couldn't get a cookie from hypem.com"}];
@@ -119,13 +122,51 @@
 
 #pragma mark - Playlists
 - (void) getPlaylistOfType:(NSString*)type withArg:(NSString*)arg andPage:(NSUInteger)page withCompletion:(void (^)(NSArray *tracks, NSError *error))completion {
-	NSString *urlPath = [NSString stringWithFormat:kPlaylistAction, kBaseURLAddress];
+	// Setup completion handler
+	__block NSArray *tracksWithKeys;
+	__block NSArray *tracksWithoutKeys;
+	void (^completionHandler)(NSArray *tracks, NSError *error) = ^void(NSArray *tracks, NSError *error) {
+		
+		if (error == nil) {
+			if ([tracks[0] isKindOfClass:[Track class]]) {
+				tracksWithoutKeys = tracks;
+			}
+			else {
+				tracksWithKeys = tracks;
+			}
+			if (tracksWithoutKeys != nil && tracksWithKeys != nil) {
+				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+					NSMutableArray *responseTracks = [[NSMutableArray alloc] init];
+					
+					for (Track *track in tracksWithoutKeys) {
+						for (NSDictionary *trackData in tracksWithKeys) {
+							if ([[trackData valueForKey:@"id"] isEqualToString:[track.metadata valueForKey:@"mediaid"]]) {
+								NSMutableDictionary *metadata = [track.metadata mutableCopy];
+								[metadata setObject:[trackData valueForKey:@"key"] forKey:@"key"];
+								track.metadata = metadata;
+								[responseTracks addObject:track];
+							}
+						}
+					}
+					
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completion(responseTracks, nil);
+					});
+				});
+			}
+		}
+		else {
+			completion(tracks, error);
+		}
+	};
+	// JSON Request
+	NSString *urlPath = [NSString stringWithFormat:kPlaylistAction, kBaseAPIAddress];
 	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":type" withString:type];
 	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":arg" withString:arg];
 	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":page" withString:[NSString stringWithFormat:@"%lu", (unsigned long)page]];
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
-	[request setHTTPShouldHandleCookies:NO];
+	[request setHTTPShouldHandleCookies:YES];
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"text/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
 	
@@ -145,7 +186,7 @@
 							 error:&error];
 				if (error || ![object isKindOfClass:[NSDictionary class]]) {
 					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
-					completion(nil, error);
+					completionHandler(nil, error);
 				}
 				else {
 					
@@ -176,14 +217,131 @@
 					NSArray *sortedTracks = [tracks sortedArrayUsingDescriptors:sortDescriptors];
 					
 					dispatch_async(dispatch_get_main_queue(), ^{
-					
-						completion(sortedTracks, nil);
+						completionHandler(sortedTracks, nil);
 					});
 				}
 			}
 			else {
 				dispatch_async(dispatch_get_main_queue(), ^{
-					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"could not parse response from hypem"}];
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completionHandler(nil, error);
+				});
+			}
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				completionHandler(nil, error);
+			});
+		}
+	};
+	[self.queue addOperation:operation];
+	
+	// HTML Request
+	NSString *HTMLurlPath = [NSString stringWithFormat:kPlaylistHTMLAction, kBaseWebAddress];
+	HTMLurlPath = [HTMLurlPath stringByReplacingOccurrencesOfString:@":type" withString:type];
+	if (arg.length == 0) {
+		HTMLurlPath = [HTMLurlPath stringByReplacingOccurrencesOfString:@"/:arg" withString:arg];
+	}
+	else {
+		HTMLurlPath = [HTMLurlPath stringByReplacingOccurrencesOfString:@":arg" withString:arg];
+	}
+	HTMLurlPath = [HTMLurlPath stringByReplacingOccurrencesOfString:@":page" withString:[NSString stringWithFormat:@"%lu", (unsigned long)page]];
+	
+	NSMutableURLRequest *HTMLrequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:HTMLurlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+	[HTMLrequest setHTTPShouldHandleCookies:YES];
+	[HTMLrequest setHTTPMethod:@"GET"];
+	
+	// Start the Operation
+	Operation *HTMLoperation = [[Operation alloc] init];
+	HTMLoperation.urlRequest = HTMLrequest;
+	__block Operation *HTMLblockOperation = HTMLoperation;
+	HTMLoperation.completionBlock = ^{
+		if (HTMLblockOperation.responseData) {
+			NSString *responseString = [[NSString alloc] initWithData:HTMLblockOperation.responseData encoding:NSUTF8StringEncoding];
+			
+			if (responseString) {
+				NSString *trash=@"", *responseObject=@"";
+				NSScanner *scanner = [NSScanner scannerWithString:responseString];
+				[scanner scanUpToString:@"id=\"displayList-data\"" intoString:&trash];
+				[scanner scanUpToString:@"{" intoString:&trash];
+				[scanner scanUpToString:@"</script>" intoString:&responseObject];
+				
+				NSError *error = nil;
+				id object = [NSJSONSerialization
+							 JSONObjectWithData:[responseObject dataUsingEncoding:NSUTF8StringEncoding]
+							 options:0
+							 error:&error];
+				if (error || ![object isKindOfClass:[NSDictionary class]]) {
+					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					completionHandler(nil, error);
+				}
+				else {
+					
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completionHandler([object objectForKey:@"tracks"], nil);
+					});
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completionHandler(nil, error);
+				});
+			}
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				completionHandler(nil, error);
+			});
+		}
+	};
+	[self.queue addOperation:HTMLoperation];
+}
+
+#pragma mark - Tracks
+- (void) getDownloadURLForTrack:(Track*)track withCompletion:(void (^)(NSURL *url, NSError *error))completion {
+	// JSON Request
+	NSString *urlPath = [NSString stringWithFormat:kTrackDownloadAction, kBaseWebAddress];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":mediaid" withString:[track.metadata valueForKey:@"mediaid"]];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":key" withString:[track.metadata valueForKey:@"key"]];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+	[request setHTTPShouldHandleCookies:YES];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"text/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	
+	// Start the Operation
+	Operation *operation = [[Operation alloc] init];
+	operation.urlRequest = request;
+	__block Operation *blockOperation = operation;
+	operation.completionBlock = ^{
+		if (blockOperation.responseData) {
+			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+			if (responseString) {
+				NSError *error = nil;
+				id object = [NSJSONSerialization
+							 JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding]
+							 options:0
+							 error:&error];
+				
+				if (error || ![object isKindOfClass:[NSDictionary class]]) {
+					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					completion(nil, error);
+				}
+				else {
+					
+					NSURL *downloadURL = [NSURL URLWithString:[object valueForKey:@"url"]];
+					
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completion(downloadURL, nil);
+					});
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
 					completion(nil, error);
 				});
 			}
