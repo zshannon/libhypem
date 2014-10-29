@@ -12,34 +12,30 @@
 
 @implementation User
 
-+ (User*) userWithName:(NSString*)name {
++ (User*) userWithUsername:(NSString*)username {
 	User *user = [[User alloc] init];
-	user.name = name;
+	user.username = username;
 	return user;
 }
 
-- (NSString*) name {
-	return nil;
-}
-
 - (NSString*) full_name {
-	return nil;
+	return [self.metadata valueForKey:@"fullname"];
 }
 
 - (NSString*) joined_at {
-	return nil;
+	return [self.metadata valueForKey:@"joined_ts"];
 }
 
 - (NSString*) location {
-	return nil;
+	return [self.metadata valueForKey:@"location"];
 }
 
 - (NSString*) twitter_username {
-	return nil;
+	return [self.metadata valueForKey:@"twitter_username"];
 }
 
 - (NSString*) image_url {
-	return nil;
+	return [self.metadata valueForKey:@"user_pic"];
 }
 
 - (NSString*) followed_users_count {
@@ -60,7 +56,12 @@
 
 - (void) fetchProfile:(void (^)(NSError *error))completion {
 	APIClient *client = [HypeM sharedInstance].client;
-	[client getUserProfile:self withCompletion:completion];
+	[client getUserProfile:self withCompletion:^(NSDictionary *profile, NSError *error) {
+		if (error != nil) {
+			self.metadata = profile;
+		}
+		completion(error);
+	}];
 }
 
 - (void) fetchFavoriteBlogs:(void (^)(NSArray *blogs, NSError *error))completion {

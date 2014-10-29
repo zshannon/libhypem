@@ -10,12 +10,12 @@
 
 @interface User : NSObject
 
-@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSDictionary *metadata;
 
-+ (User*) userWithName:(NSString*)name;
++ (User*) userWithUsername:(NSString*)username;
 
-- (NSString*) name;
+- (NSString*) username;
 - (NSString*) full_name;
 - (NSString*) joined_at;
 - (NSString*) location;

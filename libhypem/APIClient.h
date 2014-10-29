@@ -24,7 +24,7 @@
 - (void) toggleFavoriteTrack:(Track*)track withCompletion:(void (^)(NSError *error))completion;
 
 #pragma mark - Users
-- (void) getUserProfile:(User*)user withCompletion:(void (^)(NSError *error))completion;
+- (void) getUserProfile:(User*)user withCompletion:(void (^)(NSDictionary *profile, NSError *error))completion;
 - (void) getFavoriteBlogs:(User*)user withCompletion:(void (^)(NSArray *blogs, NSError *error))completion;
 - (void) getFriendsForUser:(User*)user withCompletion:(void (^)(NSArray *users, NSError *error))completion;
 
