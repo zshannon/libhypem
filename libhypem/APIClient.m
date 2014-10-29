@@ -356,6 +356,12 @@
 	[self.queue addOperation:operation];
 }
 
+- (void) favoriteTrack:(Track*)track withCompletion:(void (^)(NSError *error))completion {
+	// TODO: implement this! Issue #5
+	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
+	completion(error);
+}
+
 #pragma mark - Users
 
 - (void) getUserProfile:(User*)user withCompletion:(void (^)(NSError *error))completion {

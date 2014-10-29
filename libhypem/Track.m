@@ -59,9 +59,8 @@
 }
 
 - (void) favorite:(void (^)(NSError *error))completion {
-	// TODO: should implement this! Issue #5
-	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
-	completion(error);
+	APIClient *client = [HypeM sharedInstance].client;
+	[client favoriteTrack:self withCompletion:completion];
 }
 
 @end
