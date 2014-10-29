@@ -22,6 +22,8 @@
 #define kPlaylistHTMLAction @"%@/:type/:arg/:page"
 #define kTrackDownloadAction @"%@/serve/source/:mediaid/:key"
 #define kUserProfileAction @"%@/api/get_profile?username=:username"
+#define kUserFavoriteBlogsAction @"%@/api/get_favorite_blogs?username=:username"
+#define kUserFriendsAction @"%@/api/get_friends?username=:username"
 
 @interface APIClient()
 
@@ -413,8 +415,6 @@
 	NSString *urlPath = [NSString stringWithFormat:kUserProfileAction, kBaseAPIAddress];
 	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":username" withString:user.username];
 	
-	NSLog(@"getUserProfile: %@", urlPath);
-	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
 	[request setHTTPShouldHandleCookies:YES];
 	[request setHTTPMethod:@"GET"];
@@ -462,15 +462,122 @@
 }
 
 - (void) getFavoriteBlogs:(User*)user withCompletion:(void (^)(NSArray *blogs, NSError *error))completion {
-	// TODO: implement this! Issue #6
-	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
-	completion(nil, error);
+	NSString *urlPath = [NSString stringWithFormat:kUserFavoriteBlogsAction, kBaseAPIAddress];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":username" withString:user.username];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+	[request setHTTPShouldHandleCookies:YES];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"text/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	
+	// Start the Operation
+	Operation *operation = [[Operation alloc] init];
+	operation.urlRequest = request;
+	__block Operation *blockOperation = operation;
+	operation.completionBlock = ^{
+		if (blockOperation.responseData) {
+			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+			
+			if (responseString) {
+				
+				if ([responseString isEqualToString:@"null"]) {
+					completion(@[], nil);
+					return;
+				}
+				
+				NSError *error = nil;
+				id object = [NSJSONSerialization
+							 JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding]
+							 options:0
+							 error:&error];
+				if (error || ![object isKindOfClass:[NSDictionary class]]) {
+					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					completion(nil, error);
+				}
+				else {
+					
+					NSLog(@"PARSE BLOGS: %@", object);
+					
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completion(object, nil);
+					});
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completion(nil, error);
+				});
+			}
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				completion(nil, error);
+			});
+		}
+	};
+	[self.queue addOperation:operation];
 }
 
 - (void) getFriendsForUser:(User*)user withCompletion:(void (^)(NSArray *users, NSError *error))completion {
-	// TODO: implement this! Issue #6
-	NSError *error = [NSError errorWithDomain:@"not implemented" code:1 userInfo:nil];
-	completion(nil, error);
+	NSString *urlPath = [NSString stringWithFormat:kUserFriendsAction, kBaseAPIAddress];
+	urlPath = [urlPath stringByReplacingOccurrencesOfString:@":username" withString:user.username];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+	[request setHTTPShouldHandleCookies:YES];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"text/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	
+	// Start the Operation
+	Operation *operation = [[Operation alloc] init];
+	operation.urlRequest = request;
+	__block Operation *blockOperation = operation;
+	operation.completionBlock = ^{
+		if (blockOperation.responseData) {
+			NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+			
+			if (responseString) {
+				
+				NSError *error = nil;
+				id object = [NSJSONSerialization
+							 JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding]
+							 options:0
+							 error:&error];
+				if (error || ![object isKindOfClass:[NSArray class]]) {
+					error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:2 userInfo:@{@"message": @"hypem returned invalid JSON on auth"}];
+					completion(nil, error);
+				}
+				else {
+					
+					NSMutableArray *friends = [[NSMutableArray alloc] init];
+					
+					for (NSDictionary *friend in object) {
+						User *user = [User userWithUsername:[friend valueForKey:@"username"]];
+						user.metadata = friend;
+						[friends addObject:user];
+					}
+					
+					dispatch_async(dispatch_get_main_queue(), ^{
+						completion([friends copy], nil);
+					});
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:3 userInfo:@{@"message": @"could not parse response from hypem"}];
+					completion(nil, error);
+				});
+			}
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NSError *error = [NSError errorWithDomain:@"com.zaneshannon.libhypem" code:4 userInfo:@{@"message": @"got no response from hypem"}];
+				completion(nil, error);
+			});
+		}
+	};
+	[self.queue addOperation:operation];
 }
 
 #pragma mark - Manage Requests

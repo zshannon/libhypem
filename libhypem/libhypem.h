@@ -23,6 +23,8 @@
 //------------------------------------------------------------------------------
 
 #import <libhypem/APIClient.h>
+#import <libhypem/Blog.h>
 #import <libhypem/HypeM.h>
 #import <libhypem/Playlist.h>
+#import <libhypem/Track.h>
 #import <libhypem/User.h>

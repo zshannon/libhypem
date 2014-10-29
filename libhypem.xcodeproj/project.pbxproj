@@ -20,6 +20,8 @@
 		1117ADD919FA28E300B0789E /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1117ADD719FA28E300B0789E /* XCTestCase+AsyncTesting.m */; };
 		117BCF481A007AF0008A99C6 /* TrackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 117BCF471A007AF0008A99C6 /* TrackTests.m */; };
 		117BCF4A1A008A9D008A99C6 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 117BCF491A008A9D008A99C6 /* UserTests.m */; };
+		11E42C321A00A30F008E7F77 /* Blog.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E42C301A00A30F008E7F77 /* Blog.h */; };
+		11E42C331A00A30F008E7F77 /* Blog.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E42C311A00A30F008E7F77 /* Blog.m */; };
 		787BF09413EBDB00002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
 		787BF09E13EBDB01002291AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 787BF09C13EBDB01002291AF /* InfoPlist.strings */; };
 		787BF0AB13EBDB01002291AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787BF09313EBDB00002291AF /* Cocoa.framework */; };
@@ -73,6 +75,8 @@
 		1117ADDA19FA2C5A00B0789E /* TestingContstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestingContstants.h; sourceTree = "<group>"; };
 		117BCF471A007AF0008A99C6 /* TrackTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackTests.m; sourceTree = "<group>"; };
 		117BCF491A008A9D008A99C6 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
+		11E42C301A00A30F008E7F77 /* Blog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blog.h; sourceTree = "<group>"; };
+		11E42C311A00A30F008E7F77 /* Blog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blog.m; sourceTree = "<group>"; };
 		787BF09013EBDB00002291AF /* libhypem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libhypem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		787BF09313EBDB00002291AF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		787BF09613EBDB00002291AF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -188,9 +192,11 @@
 			children = (
 				1117ADC519FA045700B0789E /* APIClient.h */,
 				1117ADC619FA045700B0789E /* APIClient.m */,
-				78C0802413EBF48A0069FE11 /* libhypem.h */,
+				11E42C301A00A30F008E7F77 /* Blog.h */,
+				11E42C311A00A30F008E7F77 /* Blog.m */,
 				1117ADBD19FA02E600B0789E /* HypeM.h */,
 				1117ADBE19FA02E600B0789E /* HypeM.m */,
+				78C0802413EBF48A0069FE11 /* libhypem.h */,
 				78C0802013EBE9EC0069FE11 /* Playlist.h */,
 				78C0802113EBE9EC0069FE11 /* Playlist.m */,
 				1103533719FB65590051326B /* Track.h */,
@@ -276,6 +282,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E42C321A00A30F008E7F77 /* Blog.h in Headers */,
 				1103533919FB65590051326B /* Track.h in Headers */,
 				1117ADC719FA045700B0789E /* APIClient.h in Headers */,
 				1117ADBF19FA02E600B0789E /* HypeM.h in Headers */,
@@ -466,6 +473,7 @@
 				1117ADC419FA03BF00B0789E /* User.m in Sources */,
 				1103533A19FB65590051326B /* Track.m in Sources */,
 				1117ADC819FA045700B0789E /* APIClient.m in Sources */,
+				11E42C331A00A30F008E7F77 /* Blog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
