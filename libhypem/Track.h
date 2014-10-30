@@ -20,6 +20,7 @@
 - (NSString*) postid;
 - (NSString*) sitename;
 - (NSString*) dateposted;
+- (NSString*) title;
 - (NSNumber*) position;
 - (NSURL*) publicDownloadURL;
 - (void) internalDownloadURL: (void (^)(NSURL *url, NSError *error))completion;

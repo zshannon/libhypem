@@ -42,6 +42,10 @@
 	return [[self.metadata valueForKey:@"dateposted"] stringValue];
 }
 
+- (NSString*) title {
+	return [self.metadata valueForKey:@"title"];
+}
+
 - (NSNumber*) position {
 	if (self.metadata != nil) {
 		return (NSNumber*) [self.metadata valueForKey:@"position"];
